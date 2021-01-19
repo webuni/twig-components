@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Require Twig ${{ matrix.twig }}
         env:
+          PHP_VERSION: ${{ matrix.php }}
           TWIG_VERSION: ${{ matrix.twig }}
         run: ./run composer require "twig/twig:$TWIG_VERSION" --no-update
       - name: Install dependencies
