@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  push: ~
+  pull_request: ~
+
+jobs:
+  phpunit:
+    name: PHPUnit on ${{ matrix.php }} and Twig ${{ matrix.twig }} (${{ matrix.deps_strategy }} dependencies)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deps_strategy: [ latest, lowest ]
+        php: [ 7.2, 7.3, 7.4, 8.0 ]
+        twig: [ ^1.44, ^2.14, ^3.1 ]
+    steps:
+      - name: Update code
+        uses: actions/checkout@v2
+      - name: Require Twig ${{ matrix.twig }}
+        env:
+          TWIG_VERSION: ${{ matrix.twig }}
+        run: ./run composer require "twig/twig:$TWIG_VERSION" --no-update
+      - name: Install dependencies
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+          DEPS_STRATEGY: ${{ matrix.deps_strategy }}
+        run: ./run deps:$DEPS_STRATEGY
+      - name: Run tests
+        env:
+          PHP_VERSION: ${{ matrix.php }}
+        run: ./run tests

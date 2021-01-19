@@ -1,0 +1,9 @@
+
+<div>
+  Embed
+  foo: ,
+  bar: bar,
+    Block
+    foo: ,
+    bar: bar,
+  </div>

@@ -1,0 +1,10 @@
+{% set foo = 'foo' %}
+{% set bar = 'bar_global' %}
+
+{% embed 'embed.twig' with { bar: 'bar' } only %}
+  {% block content %}
+    Block
+    foo: {{ foo|default }},
+    bar: {{ bar|default }},
+  {% endblock -%}
+{% endembed %}
